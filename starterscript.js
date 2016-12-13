@@ -26,8 +26,6 @@ function setUpBoard(){
 
 	addTile();
 	addTile();
-	addTile();
-	addTile();
 
 }
 
@@ -83,18 +81,22 @@ document.onkeydown = function(e) {
     if (e.keyCode == UP_ARROW) {
         // up arrow
         moveTilesUp();
+				addTile();
 		}
 		if (e.keyCode == LEFT_ARROW) {
 				// left arrow
 				moveTilesLeft();
+				addTile();
     }
 		if (e.keyCode == RIGHT_ARROW) {
 				// right arrow
 				moveTilesRight();
+				addTile();
 		}
 		if (e.keyCode == DOWN_ARROW) {
 				// down arrow
 				moveTilesDown();
+				addTile();
 		}
 
     //double equals sign will convert it for us
@@ -126,11 +128,8 @@ function moveTilesUp()
                 grid[r-1][c] = grid[r][c];
                 grid[r][c] = "x";
             }
-
         }
-
     }
-
 }
 
 function moveTilesLeft()
@@ -145,11 +144,8 @@ function moveTilesLeft()
                 grid[r][c-1] = grid[r][c];
                 grid[r][c] = "x";
             }
-
         }
-
     }
-
 }
 
 
@@ -165,11 +161,8 @@ function moveTilesRight()
                 grid[r][c+1] = grid[r][c];
                 grid[r][c] = "x";
             }
-
         }
-
     }
-
 }
 
 function moveTilesDown()
@@ -184,9 +177,13 @@ function moveTilesDown()
                 grid[r+1][c] = grid[r][c];
                 grid[r][c] = "x";
             }
-
         }
-
     }
+}
+
+function addTilesUp() {
+	if(r !== 0  && grid[r][c] !== "x" && grid[r-1][c] === grid[r][c]) {
+		grid[r][c] = "4";
+	}
 
 }
