@@ -25,6 +25,22 @@ function setUpBoard(){
 	}
 
 	addTile();
+	addTile();
+	addTile();
+	addTile();
+	addTile();
+
+	addTile();
+	addTile();
+
+				addTile();
+				addTile();
+					addTile();
+					addTile();
+
+								addTile();
+								addTile();
+									addTile();
 }
 
 
@@ -33,7 +49,13 @@ function addTile() {
 	//only keep running WHILE theres not a 2 there at that position already
 	var x = Math.round(Math.random()*3);
 	var y = Math.round(Math.random()*3);
-	grid[x][y] = "2";
+
+	while (grid[x][y] !== "x") {
+		x = Math.round(Math.random()*3);
+		y = Math.round(Math.random()*3);
+	}
+		grid[x][y] = "2";
+
 }
 
 
