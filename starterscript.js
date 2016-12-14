@@ -80,21 +80,25 @@ document.onkeydown = function(e) {
     //to use triple equals sign
     if (e.keyCode == UP_ARROW) {
         // up arrow
+				addTilesUp();
         moveTilesUp();
 				addTile();
 		}
 		if (e.keyCode == LEFT_ARROW) {
 				// left arrow
+				addTilesLeft();
 				moveTilesLeft();
 				addTile();
     }
 		if (e.keyCode == RIGHT_ARROW) {
 				// right arrow
+				addTilesRight();
 				moveTilesRight();
 				addTile();
 		}
 		if (e.keyCode == DOWN_ARROW) {
 				// down arrow
+				addTilesDown();
 				moveTilesDown();
 				addTile();
 		}
@@ -182,8 +186,61 @@ function moveTilesDown()
 }
 
 function addTilesUp() {
-	if(r !== 0  && grid[r][c] !== "x" && grid[r-1][c] === grid[r][c]) {
-		grid[r][c] = "4";
+
+	for(var r=0; r < grid.length; r++)
+	{
+			for(var c=0; c<grid[r].length; c++)
+			{
+				if(r !== 0  && grid[r][c] !== "x" && grid[r-1][c] === grid[r][c]) {
+					grid[r-1][c] = (parseInt(grid[r-1][c]) + parseInt(grid[r][c])) + "";
+					grid[r][c] = "x";
+				}
+			}
 	}
 
+}
+
+function addTilesLeft() {
+    for(var r=0; r < grid.length; r++)
+    {
+        for(var c=0; c<grid[r].length; c++)
+        {
+					if(c !== 0  && grid[r][c] !== "x" && grid[r][c-1] === grid[r][c])
+					{
+						grid[r][c-1] = (parseInt(grid[r][c-1]) + parseInt(grid[r][c])) + "";
+						grid[r][c] = "x";
+        	}
+				}
+    }
+}
+
+function addTilesRight()
+{
+//rows are on the sides going across and columns are on the top going down
+    for(var r=3; r > -1; r--)
+    {
+        for(var c=3; c > -1; c--)
+        {
+					if(c !== 3  && grid[r][c] !== "x" && grid[r][c+1] === grid[r][c])
+					{
+						grid[r][c+1] = (parseInt(grid[r][c+1]) + parseInt(grid[r][c])) + "";
+						grid[r][c] = "x";
+        	}
+        }
+    }
+}
+
+function addTilesDown()
+{
+//rows are on the sides going across and columns are on the top going down
+    for(var r=3; r > -1; r--)
+    {
+        for(var c=3; c > -1; c--)
+        {
+					if(r !== 3  && grid[r][c] !== "x" && grid[r+1][c] === grid[r][c]) {
+						grid[r+1][c] = (parseInt(grid[r+1][c]) + parseInt(grid[r][c])) + "";
+						grid[r][c] = "x";
+					}
+        }
+    }
 }
