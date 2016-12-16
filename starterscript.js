@@ -80,9 +80,7 @@ document.onkeydown = function(e) {
     //to use triple equals sign
     if (e.keyCode == UP_ARROW) {
         // up arrow
-				addTilesUp();
         moveTilesUp();
-				addTile();
 		}
 		if (e.keyCode == LEFT_ARROW) {
 				// left arrow
@@ -127,10 +125,14 @@ function moveTilesUp()
     {
         for(var c=0; c<grid[r].length; c++)
         {
-            if(r !== 0  && grid[r][c] !== "x" && grid[r-1][c] === "x")
-            {
-                grid[r-1][c] = grid[r][c];
-                grid[r][c] = "x";
+            if (r !== 0  && grid[r][c] !== "x" && grid[r-1][c] === "x" && grid[r][c] !== grid[r-1][c]) {
+							addTilesUp();
+							grid[r-1][c] = grid[r][c];
+							grid[r][c] = "x";
+							addTile();
+            } else {
+addTilesUp();
+addTile();
             }
         }
     }
@@ -191,7 +193,7 @@ function addTilesUp() {
 	{
 			for(var c=0; c<grid[r].length; c++)
 			{
-				if(r !== 0  && grid[r][c] !== "x" && grid[r-1][c] === grid[r][c]) {
+				if(r !== 0 && grid[r][c] !== "x" && grid[r-1][c] === grid[r][c]) {
 					grid[r-1][c] = (parseInt(grid[r-1][c]) + parseInt(grid[r][c])) + "";
 					grid[r][c] = "x";
 				}
