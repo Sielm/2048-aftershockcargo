@@ -10,18 +10,20 @@ $(document).ready(function(){
 	printBoard();
 	console.log("Loaded webpage"); //how you do print statements in javascript
 });
+
 var board = [];
 var UP_ARROW = 38;
 var DOWN_ARROW = 40;
 var LEFT_ARROW = 37;
 var RIGHT_ARROW = 39;
+
 function setUpBoard(){
 
 	// initialize board to have no values
 	for(var i=0; i<4; i++){
 		var innerboard = [];
 		for(var j=0; j<4; j++){
-			innerboard.push("");
+			innerboard.push(0);
 		}
 		board.push(innerboard);
 	}
@@ -39,7 +41,7 @@ function addTile() {
 	var y = Math.round(Math.random()*3);
 	var z = Math.random();
 
-	while (board[x][y] !== "") {
+	while (board[x][y] !== 0) {
 		x = Math.round(Math.random()*3);
 		y = Math.round(Math.random()*3);
 	}
@@ -49,6 +51,180 @@ function addTile() {
 	if (z<.25){
 		board[x][y] = 4;
 	}
+}
+
+document.onkeydown = function(e) {
+
+    //makes it work in internet explorer which uses window.event and not e
+    e = e || window.event;
+
+    //keyCode is actually a character value which we convert to a String
+    //to use triple equals sign
+    if (e.keyCode == UP_ARROW) {
+        // up arrow
+				console.log("Pressed up");
+				addTilesUp();
+        moveTilesUp();
+				addTile();
+		}
+		if (e.keyCode == LEFT_ARROW) {
+				// left arrow
+				addTilesLeft();
+				moveTilesLeft();
+				addTile();
+    }
+		if (e.keyCode == RIGHT_ARROW) {
+				// right arrow
+				addTilesRight();
+				moveTilesRight();
+				addTile();
+		}
+		if (e.keyCode == DOWN_ARROW) {
+				// down arrow
+				addTilesDown();
+				moveTilesDown();
+				addTile();
+		}
+
+    //double equals sign will convert it for us
+    else if (e.keyCode == DOWN_ARROW) {
+        // down arrow
+        console.log("Pressed down");
+    }
+    else if (e.keyCode == LEFT_ARROW) {
+       // left arrow
+       console.log("Pressed left");
+    }
+    else if (e.keyCode == RIGHT_ARROW) {
+       // right arrow
+       console.log("Pressed right");
+    }
+
+    printBoard(); //have to recall print board to get the board to update
+};
+function moveTilesUp()
+{
+//rows are on the sides going across and columns are on the top going down
+    for(var r=0; r < board.length; r++)
+    {
+        for(var c=0; c<board[r].length; c++)
+        {
+            if(r !== 0  && board[r][c] !== "" && board[r-1][c] === "")
+            {
+                board[r-1][c] = board[r][c];
+                board[r][c] = 0;
+            }
+        }
+    }
+}
+
+function moveTilesLeft()
+{
+//rows are on the sides going across and columns are on the top going down
+    for(var r=0; r < board.length; r++)
+    {
+        for(var c=0; c<board[r].length; c++)
+        {
+            if(c !== 0  && board[r][c] !== "" && board[r][c-1] === "")
+            {
+                board[r][c-1] = board[r][c];
+                board[r][c] = "";
+            }
+        }
+    }
+}
+
+
+function moveTilesRight()
+{
+//rows are on the sides going across and columns are on the top going down
+    for(var r=3; r > -1; r--)
+    {
+        for(var c=3; c > -1; c--)
+        {
+            if(c !== 3  && board[r][c] !== "" && board[r][c+1] === "")
+            {
+                board[r][c+1] = board[r][c];
+                board[r][c] = "";
+            }
+        }
+    }
+}
+
+function moveTilesDown()
+{
+//rows are on the sides going across and columns are on the top going down
+    for(var r=3; r > -1; r--)
+    {
+        for(var c=3; c > -1; c--)
+        {
+            if(r !== 3  && board[r][c] !== "" && board[r+1][c] === "")
+            {
+                board[r+1][c] = board[r][c];
+                board[r][c] = "";
+            }
+        }
+    }
+}
+
+function addTilesUp() {
+
+	for(var r=0; r < board.length; r++)
+	{
+			for(var c=0; c<board[r].length; c++)
+			{
+				if(r !== 0  && board[r][c] !== "" && board[r-1][c] === board[r][c]) {
+					board[r-1][c] = (parseInt(board[r-1][c]) + parseInt(board[r][c])) + "";
+					board[r][c] = 0;
+				}
+			}
+	}
+
+}
+
+function addTilesLeft() {
+    for(var r=0; r < board.length; r++)
+    {
+        for(var c=0; c<board[r].length; c++)
+        {
+					if(c !== 0  && board[r][c] !== "" && board[r][c-1] === board[r][c])
+					{
+						board[r][c-1] = (parseInt(board[r][c-1]) + parseInt(board[r][c])) + "";
+						board[r][c] = "";
+        	}
+				}
+    }
+}
+
+function addTilesRight()
+{
+//rows are on the sides going across and columns are on the top going down
+    for(var r=3; r > -1; r--)
+    {
+        for(var c=3; c > -1; c--)
+        {
+					if(c !== 3  && board[r][c] !== "" && board[r][c+1] === board[r][c])
+					{
+						board[r][c+1] = (parseInt(board[r][c+1]) + parseInt(board[r][c])) + "";
+						board[r][c] = "";
+        	}
+        }
+    }
+}
+
+function addTilesDown()
+{
+//rows are on the sides going across and columns are on the top going down
+    for(var r=3; r > -1; r--)
+    {
+        for(var c=3; c > -1; c--)
+        {
+					if(r !== 3  && board[r][c] !== "" && board[r+1][c] === board[r][c]) {
+						board[r+1][c] = (parseInt(board[r+1][c]) + parseInt(board[r][c])) + "";
+						board[r][c] = "";
+					}
+        }
+    }
 }
 
 function printBoard(){
@@ -102,9 +278,9 @@ function printBoard(){
 	}
 }
 //show students an ascii conversion tool.
-document.onkeydown = function(e){
-	console.log(e.keyCode);
-};
+// document.onkeydown = function(e){
+// 	console.log(e.keyCode);
+// };
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -131,7 +307,7 @@ document.onkeydown = function(e){
 // 	for(var i=0; i<4; i++){
 // 		var innerboard = [];
 // 		for(var j=0; j<4; j++){
-// 			innerboard.push("--");
+// 			innerboard.push("");
 // 		}
 // 		board.push(innerboard);
 // 	}
@@ -149,7 +325,7 @@ document.onkeydown = function(e){
 // 	var y = Math.round(Math.random()*3);
 // 	var z = Math.random();
 //
-// 	while (board[x][y] !== "--") {
+// 	while (board[x][y] !== "") {
 // 		x = Math.round(Math.random()*3);
 // 		y = Math.round(Math.random()*3);
 // 	}
@@ -161,22 +337,6 @@ document.onkeydown = function(e){
 // 	}
 // }
 //
-//
-// function printBoard(){
-// 	var board = '<br/>' + "*--------------*" + '<br/>';
-// 	for(var i=0; i<board.length; i++){
-// 		board += "|   ";
-// 		for(var j=0; j<board[i].length; j++){
-// 			board += board[i][j] + "   |   ";
-// 		}
-// 		board += '<br/>';
-// 		board += "*--------------*";
-// 		board += '<br/>';
-// 	}
-//
-// 	//console.log(board)
-// 	document.getElementById("container").innerHTML = board;
-// }
 //
 //
 // //function gets called anytime  a key is pressed
@@ -239,10 +399,10 @@ document.onkeydown = function(e){
 //     {
 //         for(var c=0; c<board[r].length; c++)
 //         {
-//             if(r !== 0  && board[r][c] !== "--" && board[r-1][c] === "--")
+//             if(r !== 0  && board[r][c] !== "" && board[r-1][c] === "")
 //             {
 //                 board[r-1][c] = board[r][c];
-//                 board[r][c] = "--";
+//                 board[r][c] = "";
 //             }
 //         }
 //     }
@@ -255,10 +415,10 @@ document.onkeydown = function(e){
 //     {
 //         for(var c=0; c<board[r].length; c++)
 //         {
-//             if(c !== 0  && board[r][c] !== "--" && board[r][c-1] === "--")
+//             if(c !== 0  && board[r][c] !== "" && board[r][c-1] === "")
 //             {
 //                 board[r][c-1] = board[r][c];
-//                 board[r][c] = "--";
+//                 board[r][c] = "";
 //             }
 //         }
 //     }
@@ -272,10 +432,10 @@ document.onkeydown = function(e){
 //     {
 //         for(var c=3; c > -1; c--)
 //         {
-//             if(c !== 3  && board[r][c] !== "--" && board[r][c+1] === "--")
+//             if(c !== 3  && board[r][c] !== "" && board[r][c+1] === "")
 //             {
 //                 board[r][c+1] = board[r][c];
-//                 board[r][c] = "--";
+//                 board[r][c] = "";
 //             }
 //         }
 //     }
@@ -288,10 +448,10 @@ document.onkeydown = function(e){
 //     {
 //         for(var c=3; c > -1; c--)
 //         {
-//             if(r !== 3  && board[r][c] !== "--" && board[r+1][c] === "--")
+//             if(r !== 3  && board[r][c] !== "" && board[r+1][c] === "")
 //             {
 //                 board[r+1][c] = board[r][c];
-//                 board[r][c] = "--";
+//                 board[r][c] = "";
 //             }
 //         }
 //     }
@@ -303,9 +463,9 @@ document.onkeydown = function(e){
 // 	{
 // 			for(var c=0; c<board[r].length; c++)
 // 			{
-// 				if(r !== 0  && board[r][c] !== "--" && board[r-1][c] === board[r][c]) {
+// 				if(r !== 0  && board[r][c] !== "" && board[r-1][c] === board[r][c]) {
 // 					board[r-1][c] = (parseInt(board[r-1][c]) + parseInt(board[r][c])) + "";
-// 					board[r][c] = "--";
+// 					board[r][c] = "";
 // 				}
 // 			}
 // 	}
@@ -317,10 +477,10 @@ document.onkeydown = function(e){
 //     {
 //         for(var c=0; c<board[r].length; c++)
 //         {
-// 					if(c !== 0  && board[r][c] !== "--" && board[r][c-1] === board[r][c])
+// 					if(c !== 0  && board[r][c] !== "" && board[r][c-1] === board[r][c])
 // 					{
 // 						board[r][c-1] = (parseInt(board[r][c-1]) + parseInt(board[r][c])) + "";
-// 						board[r][c] = "--";
+// 						board[r][c] = "";
 //         	}
 // 				}
 //     }
@@ -333,10 +493,10 @@ document.onkeydown = function(e){
 //     {
 //         for(var c=3; c > -1; c--)
 //         {
-// 					if(c !== 3  && board[r][c] !== "--" && board[r][c+1] === board[r][c])
+// 					if(c !== 3  && board[r][c] !== "" && board[r][c+1] === board[r][c])
 // 					{
 // 						board[r][c+1] = (parseInt(board[r][c+1]) + parseInt(board[r][c])) + "";
-// 						board[r][c] = "--";
+// 						board[r][c] = "";
 //         	}
 //         }
 //     }
@@ -349,9 +509,9 @@ document.onkeydown = function(e){
 //     {
 //         for(var c=3; c > -1; c--)
 //         {
-// 					if(r !== 3  && board[r][c] !== "--" && board[r+1][c] === board[r][c]) {
+// 					if(r !== 3  && board[r][c] !== "" && board[r+1][c] === board[r][c]) {
 // 						board[r+1][c] = (parseInt(board[r+1][c]) + parseInt(board[r][c])) + "";
-// 						board[r][c] = "--";
+// 						board[r][c] = "";
 // 					}
 //         }
 //     }
