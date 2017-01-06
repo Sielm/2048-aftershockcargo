@@ -10,7 +10,6 @@ $(document).ready(function(){
 	printBoard();
 	console.log("Loaded webpage"); //how you do print statements in javascript
 });
-
 var board = [];
 var UP_ARROW = 38;
 var DOWN_ARROW = 40;
@@ -23,7 +22,7 @@ function setUpBoard(){
 	for(var i=0; i<4; i++){
 		var innerboard = [];
 		for(var j=0; j<4; j++){
-			innerboard.push(0);
+			innerboard.push("");
 		}
 		board.push(innerboard);
 	}
@@ -41,7 +40,7 @@ function addTile() {
 	var y = Math.round(Math.random()*3);
 	var z = Math.random();
 
-	while (board[x][y] !== 0) {
+	while (board[x][y] !== "") {
 		x = Math.round(Math.random()*3);
 		y = Math.round(Math.random()*3);
 	}
@@ -52,7 +51,6 @@ function addTile() {
 		board[x][y] = 4;
 	}
 }
-
 document.onkeydown = function(e) {
 
     //makes it work in internet explorer which uses window.event and not e
@@ -112,7 +110,7 @@ function moveTilesUp()
             if(r !== 0  && board[r][c] !== "" && board[r-1][c] === "")
             {
                 board[r-1][c] = board[r][c];
-                board[r][c] = 0;
+                board[r][c] = "";
             }
         }
     }
@@ -175,7 +173,7 @@ function addTilesUp() {
 			{
 				if(r !== 0  && board[r][c] !== "" && board[r-1][c] === board[r][c]) {
 					board[r-1][c] = (parseInt(board[r-1][c]) + parseInt(board[r][c])) + "";
-					board[r][c] = 0;
+					board[r][c] = "";
 				}
 			}
 	}
@@ -236,6 +234,9 @@ function printBoard(){
 			if(board[i][j]!=0){
 				document.getElementById(boardID).innerHTML = board[i][j];
 			}
+			else{
+				document.getElementById(boardID).innerHTML = "";
+			}
 			//Change the different number tiles to different colors
 			switch(board[i][j]){
 				case 2:
@@ -272,6 +273,8 @@ function printBoard(){
 					document.getElementById(boardID).style.background = "#ccc0b3";
 					break;
 				default:
+					document.getElementById(boardID).style.background = "rgba(238, 228, 218, 0.35)";
+					break;
 					//similar to the else statement. If none of the other cases execute, this statement will execute
 			}
 		}
